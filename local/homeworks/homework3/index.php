@@ -4,6 +4,9 @@ use Bitrix\Main\Page\Asset;
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php"); ?>
 <?php
+
+/** @global $APPLICATION   */
+
 $APPLICATION->SetTitle("ДЗ #3: Связывание моделей");
 
 Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
@@ -12,15 +15,19 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
     <h1 class="mb-3"><?php $APPLICATION->ShowTitle() ?></h1>
 
     <h4 class="mb-3">Пояснительная записка</h4>
-    <div style="color: red;font-style: italic;">
-        Тут добавить описание того что и как было реализовано.
+    <div style="color: black;font-style: italic;">
+        <h5>Были реализованы</h5>
+        - Отображение всех врачей<br>
+        - Отображение выбранного врача, его реквизитов и связанных процедур<br>
+        - Добавление нового врача<br>
+        - Добавление новой процедуры<br>
     </div>
     <br>
     <br>
     <hr>
 
     <div style="color: red;font-style: italic;">
-        &darr;&darr;&darr; ссылки ниже заменить на свои &darr;&darr;&darr;
+
     </div>
 
 
@@ -30,7 +37,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item list-group-item-action">
-                <a href="#"
+                <a href="../../../services/lists/16/view/0/"
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Список врачей
@@ -41,7 +48,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
                 </a>
             </li>
             <li class="list-group-item list-group-item-action">
-                <a href="#"
+                <a href="../../../services/lists/17/view/0/"
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Список процедур
@@ -52,7 +59,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
                 </a>
             </li>
             <li class="list-group-item list-group-item-action">
-                <a href="#"
+                <a href="Doctor/"
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Врачи и процедуры
@@ -63,7 +70,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
                 </a>
             </li>
             <li class="list-group-item list-group-item-action">
-                <a href="/bitrix/admin/fileman_file_view.php?path=/local/App/Debug/Log.php"
+                <a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fhomeworks%2Fhomework3%2FDoctor%2Findex.php&site=s1&lang=ru"
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Ссылки на просмотр кода основных файлов ДЗ (связь таблиц и ORM)
