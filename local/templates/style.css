@@ -1,0 +1,212 @@
+/* ==========================================================================
+   Страница "Врачи" - стили
+   Подключается через $APPLICATION->SetAdditionalCSS(...)
+   ========================================================================== */
+
+.doctors {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #2c2c2c;
+}
+
+.doctors h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.doctors h1 a {
+    color: #2c2c2c;
+    text-decoration: none;
+}
+
+.doctors h1 a:hover {
+    color: #1a73e8;
+}
+
+/* ---------- Кнопки над списком ---------- */
+
+.add-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.add-buttons a {
+    text-decoration: none;
+}
+
+.add-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #1a73e8;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.add-buttons button:hover {
+    background: #1558b0;
+}
+
+.add-buttons button:active {
+    transform: scale(0.97);
+}
+
+/* ---------- Список карточек врачей ---------- */
+
+.cards-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    color: #2c2c2c;
+    text-align: center;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    border-color: #1a73e8;
+    transform: translateY(-3px);
+}
+
+.card .fio {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.card .fio span:first-child {
+    font-weight: 600;
+}
+
+/* Небольшой декоративный акцент — "аватар"-заглушка */
+.card::before {
+    content: "👨‍⚕️";
+    display: block;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+/* ---------- Карточка конкретного врача ---------- */
+
+.doctor-page {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.doctor-page h2 {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.doctor-page h3 {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.doctor-page ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.doctor-page ul li {
+    background: #f1f6ff;
+    color: #1a73e8;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* ---------- Формы добавления / редактирования ---------- */
+
+.doctor-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 420px;
+    margin: 20px auto 0;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.doctor-add-form input[type="text"],
+.doctor-add-form select {
+    padding: 10px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.doctor-add-form input[type="text"]:focus,
+.doctor-add-form select:focus {
+    border-color: #1a73e8;
+}
+
+.doctor-add-form select[multiple] {
+    min-height: 140px;
+}
+
+.doctor-add-form input[type="submit"] {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #1a73e8;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.doctor-add-form input[type="submit"]:hover {
+    background: #1558b0;
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 600px) {
+    .cards-list {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .doctor-add-form,
+    .doctor-page {
+        padding: 20px;
+    }
+}
