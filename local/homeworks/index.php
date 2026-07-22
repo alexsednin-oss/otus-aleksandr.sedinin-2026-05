@@ -3,6 +3,9 @@ use Bitrix\Main\Page\Asset;
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 
+/**
+ *  @var CMain $APPLICATION
+ */
 $APPLICATION->SetTitle("Список Домашних работ");
 
 Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
@@ -46,7 +49,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
     <section class="container-fluid">
 
         <h1 class="mb-3"><?php $APPLICATION->ShowTitle() ?></h1>
-        <div class="mb-3">Репозиторий: <a href="https://github.com/">https://github.com/</a> <span style="color:red;">&larr; указать URL своего репозитория</span></div>
+        <div class="mb-3">Репозиторий: <a href="https://github.com/alexsednin-oss/otus-aleksandr.sedinin-2026-05">Мой репозиторий</a></div>
         <ul class="item-list">
             <li>
                 <h2 class="item done">
