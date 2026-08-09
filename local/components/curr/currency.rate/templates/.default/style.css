@@ -1,0 +1,37 @@
+.curr-currency-rate {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    background: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    min-width: 200px;
+}
+
+.curr-currency-rate__code {
+    font-size: 13px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.curr-currency-rate__name {
+    font-size: 15px;
+    color: #333;
+}
+
+.curr-currency-rate__value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a73e8;
+    margin-top: 4px;
+}
+
+.curr-currency-rate__date {
+    font-size: 12px;
+    color: #999;
+    margin-top: 2px;
+}
