@@ -44,6 +44,22 @@ class alex_newmodule extends CModule
 
             RegisterModule($this->MODULE_ID);
 
+            RegisterModuleDependences(
+                'main',
+                'OnBuildGlobalMenu',
+                $this->MODULE_ID,
+                '\Alex\Newmodule\EventHandler',
+                'onBuildGlobalMenu'
+            );
+
+            RegisterModuleDependences(
+                'crm',
+                'onEntityDetailsTabsInitialized',
+                $this->MODULE_ID,
+                '\Alex\Newmodule\EventHandler',
+                'onEntityDetailsTabsInitialized'
+            );
+
             $APPLICATION->IncludeAdminFile(
                 Loc::getMessage('ALEX_NEWMODULE_INSTALL_TITLE'),
                 $this->GetPath().'/install/step2.php'
@@ -63,6 +79,22 @@ class alex_newmodule extends CModule
                 $this->GetPath().'/install/unstep1.php'
             );
         } else {
+            UnRegisterModuleDependences(
+                'main',
+                'OnBuildGlobalMenu',
+                $this->MODULE_ID,
+                '\Alex\Newmodule\EventHandler',
+                'onBuildGlobalMenu'
+            );
+
+            UnRegisterModuleDependences(
+                'crm',
+                'onEntityDetailsTabsInitialized',
+                $this->MODULE_ID,
+                '\Alex\Newmodule\EventHandler',
+                'onEntityDetailsTabsInitialized'
+            );
+
             $this->UnInstallDB();
             $this->UnInstallFiles();
 

@@ -19,3 +19,5 @@ $MESS['ALEX_NEWMODULE_UNINSTALL_STEP1_ITEM_PAGE'] = 'Удаление стран
 $MESS['ALEX_NEWMODULE_UNINSTALL_STEP1_BUTTON'] = 'Удалить';
 $MESS['ALEX_NEWMODULE_UNINSTALL_STEP2_SUCCESS'] = 'Модуль Alex NewModule успешно удалён';
 $MESS['ALEX_NEWMODULE_UNINSTALL_STEP2_BACK'] = 'Закрыть';
+
+$MESS['ALEX_NEWMODULE_OPTIONS_NOTE'] = 'Тут могли бы быть ваши настройки';
