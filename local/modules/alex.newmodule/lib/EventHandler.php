@@ -6,6 +6,11 @@ use Bitrix\Main\EventResult;
 
 class EventHandler
 {
+    /**
+     * @param $aGlobalMenu
+     * @param $aModuleMenu
+     * @return void
+     */
     public static function onBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
     {
         global $USER;
@@ -38,6 +43,13 @@ class EventHandler
     }
 
 
+    /**
+     * @param $entityID
+     * @param $entityTypeID
+     * @param $guid
+     * @param $tabs
+     * @return EventResult
+     */
     public static function onEntityDetailsTabsInitialized($entityID = null, $entityTypeID = null, $guid = null, $tabs = null)
     {
         if (!is_array($tabs)) {

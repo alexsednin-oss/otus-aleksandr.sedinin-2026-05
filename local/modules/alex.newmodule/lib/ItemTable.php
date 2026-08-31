@@ -9,11 +9,18 @@ use Bitrix\Main\ORM\Fields\DatetimeField;
 
 class ItemTable extends DataManager
 {
+    /**
+     * @return string
+     */
     public static function getTableName(): string
     {
         return 'alex_newmodule_item';
     }
 
+    /**
+     * @return array
+     * @throws \Bitrix\Main\SystemException
+     */
     public static function getMap(): array
     {
         return [
