@@ -1,0 +1,228 @@
+Otus - 2026-08-19 22:38:24 - Host: localhost - UNCAUGHT_EXCEPTION - [Error] 
+Class "Alex\Newmodule\ItemTable" not found (0)
+/var/www/bitrix/local/modules/alex.newmodule/install/index.php:81
+#0: alex_newmodule->InstallDB
+	/var/www/bitrix/local/modules/alex.newmodule/install/index.php:40
+#1: alex_newmodule->DoInstall
+	/var/www/bitrix/bitrix/modules/main/admin/partner_modules.php:249
+#2: require_once(string)
+	/var/www/bitrix/bitrix/admin/partner_modules.php:2
+----------
+
+Otus - 2026-08-19 22:40:11 - Host: localhost - UNCAUGHT_EXCEPTION - [Error] 
+Failed opening required '/var/www/bitrix/bitrix/modules/alex.newmodule/lib/ItemTable.php' (include_path='.:/usr/share/php') (0)
+/var/www/bitrix/bitrix/modules/main/lib/loader.php:401
+#0: Bitrix\Main\Loader::autoLoad
+	/var/www/bitrix/local/modules/alex.newmodule/install/index.php:87
+#1: alex_newmodule->InstallDB
+	/var/www/bitrix/local/modules/alex.newmodule/install/index.php:43
+#2: alex_newmodule->DoInstall
+	/var/www/bitrix/bitrix/modules/main/admin/partner_modules.php:249
+#3: require_once(string)
+	/var/www/bitrix/bitrix/admin/partner_modules.php:2
+----------
+
+Otus - 2026-08-19 22:40:51 - Host: localhost - UNCAUGHT_EXCEPTION - [Error] 
+Failed opening required '/var/www/bitrix/bitrix/modules/alex.newmodule/lib/ItemTable.php' (include_path='.:/usr/share/php') (0)
+/var/www/bitrix/bitrix/modules/main/lib/loader.php:401
+#0: Bitrix\Main\Loader::autoLoad
+	/var/www/bitrix/local/modules/alex.newmodule/install/index.php:87
+#1: alex_newmodule->InstallDB
+	/var/www/bitrix/local/modules/alex.newmodule/install/index.php:43
+#2: alex_newmodule->DoInstall
+	/var/www/bitrix/bitrix/modules/main/admin/partner_modules.php:249
+#3: require_once(string)
+	/var/www/bitrix/bitrix/admin/partner_modules.php:2
+----------
+
+Otus - 2026-08-20 20:56:59 - Host: localhost - UNKNOWN - [Bitrix\Main\SystemException] 
+Event handler error: could not invoke \Alex\Newmodule\EventHandler::onBuildGlobalMenu. Class or method does not exist. (0)
+/var/www/bitrix/bitrix/modules/main/tools.php:5277
+#0: ExecuteModuleEventEx
+	/var/www/bitrix/bitrix/modules/main/interface/admin_lib.php:902
+#1: CAdminMenu->Init
+	/var/www/bitrix/bitrix/modules/main/interface/prolog_main_admin.php:36
+#2: require_once(string)
+	/var/www/bitrix/bitrix/modules/main/include/prolog_admin_after.php:19
+#3: require(string)
+	/var/www/bitrix/bitrix/modules/main/admin/update_system_partner.php:26
+#4: require_once(string)
+	/var/www/bitrix/bitrix/admin/update_system_partner.php:2
+----------
+
+Otus - 2026-08-20 20:56:59 - Host: localhost - UNKNOWN - [Bitrix\Main\SystemException] 
+Event handler error: could not invoke \Alex\Newmodule\EventHandler::onBuildGlobalMenu. Class or method does not exist. (0)
+/var/www/bitrix/bitrix/modules/main/tools.php:5277
+#0: ExecuteModuleEventEx
+	/var/www/bitrix/bitrix/modules/main/interface/admin_lib.php:902
+#1: CAdminMenu->Init
+	/var/www/bitrix/bitrix/modules/main/interface/prolog_main_admin.php:36
+#2: require_once(string)
+	/var/www/bitrix/bitrix/modules/main/include/prolog_admin_after.php:19
+#3: require(string)
+	/var/www/bitrix/bitrix/modules/main/admin/partner_modules.php:490
+#4: require_once(string)
+	/var/www/bitrix/bitrix/admin/partner_modules.php:2
+----------
+
+Otus - 2026-08-20 20:57:02 - Host: localhost - UNKNOWN - [Bitrix\Main\SystemException] 
+Event handler error: could not invoke \Alex\Newmodule\EventHandler::onBuildGlobalMenu. Class or method does not exist. (0)
+/var/www/bitrix/bitrix/modules/main/tools.php:5277
+#0: ExecuteModuleEventEx
+	/var/www/bitrix/bitrix/modules/main/interface/admin_lib.php:902
+#1: CAdminMenu->Init
+	/var/www/bitrix/bitrix/modules/main/interface/prolog_main_admin.php:36
+#2: require_once(string)
+	/var/www/bitrix/bitrix/modules/main/include/prolog_admin_after.php:19
+#3: include(string)
+	/var/www/bitrix/bitrix/modules/main/classes/general/main.php:210
+#4: CMain->IncludeAdminFile
+	/var/www/bitrix/local/modules/alex.newmodule/install/index.php:69
+#5: alex_newmodule->DoUninstall
+	/var/www/bitrix/bitrix/modules/main/admin/partner_modules.php:226
+#6: require_once(string)
+	/var/www/bitrix/bitrix/admin/partner_modules.php:2
+----------
+
+Otus - 2026-08-20 21:00:19 - Host: localhost - UNCAUGHT_EXCEPTION - [Error] 
+Class "Alex\Newmodule\ItemTable" not found (0)
+/var/www/bitrix/alex_newmodule/index.php:20
+----------
+
+Otus - 2026-08-31 21:56:29 - Host: localhost - UNCAUGHT_EXCEPTION - [TypeError] 
+Alex\Newmodule\EventHandler::onEntityDetailsTabsInitialized(): Argument #1 ($event) must be of type Bitrix\Main\Event, int given (0)
+/var/www/bitrix/local/modules/alex.newmodule/lib/EventHandler.php:45
+#0: Alex\Newmodule\EventHandler::onEntityDetailsTabsInitialized
+	
+#1: call_user_func_array
+	/var/www/bitrix/bitrix/modules/main/lib/eventmanager.php:439
+#2: Bitrix\Main\EventManager->sendToEventHandler
+	/var/www/bitrix/bitrix/modules/main/lib/eventmanager.php:375
+#3: Bitrix\Main\EventManager->send
+	/var/www/bitrix/bitrix/components/bitrix/crm.entity.details/class.php:324
+#4: CCrmEntityPopupComponent->updateTabsByEvent
+	/var/www/bitrix/bitrix/components/bitrix/crm.entity.details/class.php:117
+#5: CCrmEntityPopupComponent->executeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:675
+#6: CBitrixComponent->includeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/main.php:1192
+#7: CMain->IncludeComponent
+	/var/www/bitrix/bitrix/components/bitrix/crm.deal.details/templates/.default/template.php:100
+#8: include(string)
+	/var/www/bitrix/bitrix/modules/main/classes/general/component_template.php:842
+#9: CBitrixComponentTemplate->__IncludePHPTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component_template.php:951
+#10: CBitrixComponentTemplate->IncludeTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:791
+#11: CBitrixComponent->showComponentTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:731
+#12: CBitrixComponent->includeComponentTemplate
+	/var/www/bitrix/bitrix/components/bitrix/crm.deal.details/class.php:1042
+#13: CCrmDealDetailsComponent->executeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:675
+#14: CBitrixComponent->includeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/main.php:1192
+#15: CMain->IncludeComponent
+	/var/www/bitrix/bitrix/components/bitrix/ui.sidepanel.wrapper/templates/.default/content.php:25
+#16: include(string)
+	/var/www/bitrix/bitrix/components/bitrix/ui.sidepanel.wrapper/templates/.default/template.php:249
+#17: include(string)
+	/var/www/bitrix/bitrix/modules/main/classes/general/component_template.php:842
+#18: CBitrixComponentTemplate->__IncludePHPTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component_template.php:951
+#19: CBitrixComponentTemplate->IncludeTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:791
+#20: CBitrixComponent->showComponentTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:731
+#21: CBitrixComponent->includeComponentTemplate
+	/var/www/bitrix/bitrix/components/bitrix/ui.sidepanel.wrapper/class.php:187
+#22: UIPageSliderWrapperComponent->executeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:675
+#23: CBitrixComponent->includeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/main.php:1192
+#24: CMain->IncludeComponent
+	/var/www/bitrix/bitrix/components/bitrix/crm.entity.details.frame/templates/.default/template.php:19
+#25: include(string)
+	/var/www/bitrix/bitrix/modules/main/classes/general/component_template.php:842
+#26: CBitrixComponentTemplate->__IncludePHPTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component_template.php:951
+#27: CBitrixComponentTemplate->IncludeTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:791
+#28: CBitrixComponent->showComponentTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:731
+#29: CBitrixComponent->includeComponentTemplate
+	/var/www/bitrix/bitrix/components/bitrix/crm.entity.details.frame/class.php:36
+#30: CCrmEntityDetailsFrameComponent->executeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:675
+#31: CBitrixComponent->includeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/main.php:1192
+#32: CMain->IncludeComponent
+	/var/www/bitrix/bitrix/components/bitrix/crm.deal/templates/.default/details.php:13
+#33: include(string)
+	/var/www/bitrix/bitrix/modules/main/classes/general/component_template.php:842
+#34: CBitrixComponentTemplate->__IncludePHPTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component_template.php:951
+#35: CBitrixComponentTemplate->IncludeTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:791
+#36: CBitrixComponent->showComponentTemplate
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:731
+#37: CBitrixComponent->includeComponentTemplate
+	/var/www/bitrix/bitrix/components/bitrix/crm.deal/component.php:461
+#38: include(string)
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:622
+#39: CBitrixComponent->__includeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/component.php:699
+#40: CBitrixComponent->includeComponent
+	/var/www/bitrix/bitrix/modules/main/classes/general/main.php:1192
+#41: CMain->IncludeComponent
+	/var/www/bitrix/crm/deal/index.php:8
+#42: include_once(string)
+	/var/www/bitrix/bitrix/modules/main/include/urlrewrite.php:128
+#43: include_once(string)
+	/var/www/bitrix/bitrix/urlrewrite.php:2
+----------
+
+Otus - 2026-08-31 23:02:20 - Host: localhost - UNCAUGHT_EXCEPTION - [TypeError] 
+method_exists(): Argument #1 ($object_or_class) must be of type object|string, bool given (0)
+/var/www/bitrix/bitrix/modules/main/admin/group_rights.php:161
+#0: method_exists
+	/var/www/bitrix/bitrix/modules/main/admin/group_rights.php:161
+#1: require_once(string)
+	/var/www/bitrix/local/modules/alex.newmodule/options.php:146
+#2: include(string)
+	/var/www/bitrix/bitrix/modules/main/admin/settings.php:70
+#3: require_once(string)
+	/var/www/bitrix/bitrix/admin/settings.php:2
+----------
+
+Otus - 2026-08-31 23:23:06 - Host: localhost - UNCAUGHT_EXCEPTION - [Error] 
+Class "Avito\ContactCenter\Settings\TelecontactSettings" not found (0)
+/var/www/bitrix/local/modules/alex.newmodule/options.php:66
+#0: include
+	/var/www/bitrix/bitrix/modules/main/admin/settings.php:70
+#1: require_once(string)
+	/var/www/bitrix/bitrix/admin/settings.php:2
+----------
+
+Otus - 2026-08-31 23:24:26 - Host: localhost - UNCAUGHT_EXCEPTION - [Error] 
+Class "TelecontactSettings" not found (0)
+/var/www/bitrix/local/modules/alex.newmodule/options.php:61
+#0: include
+	/var/www/bitrix/bitrix/modules/main/admin/settings.php:70
+#1: require_once(string)
+	/var/www/bitrix/bitrix/admin/settings.php:2
+----------
+
+Otus - 2026-09-12 17:56:42 - Host: localhost - UNCAUGHT_EXCEPTION - [Error] 
+Class "Bitrix\Iblock\IblockTable" not found (0)
+/var/www/bitrix/local/modules/alex.newmodule/lib/BookingInstaller.php:20
+#0: Alex\Newmodule\BookingInstaller::createBookingIblock
+	/var/www/bitrix/local/modules/alex.newmodule/lib/BookingInstaller.php:14
+#1: Alex\Newmodule\BookingInstaller::install
+	/var/www/bitrix/local/modules/alex.newmodule/install/index.php:48
+#2: alex_newmodule->DoInstall
+	/var/www/bitrix/bitrix/modules/main/admin/partner_modules.php:249
+#3: require_once(string)
+	/var/www/bitrix/bitrix/admin/partner_modules.php:2
+----------
+

@@ -14,7 +14,10 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
 
 <h4 class="mb-3">Пояснительная записка</h4>
 <div>
-    Тут добавить описание того что и как было реализовано.
+    Реализован кастомный тип поля для инфоблока "Доктора".
+    Поле для содания бронирований - по нажатию по процедуре открывается попап в который можно ввести фамилию и дату/время приема. Сохраняется в списке "Бронирования"
+
+    Установка решения через установку модуля
 </div>
 <br>
 <br>
@@ -32,7 +35,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
         <ul class="list-group list-group-flush">
 
             <li class="list-group-item list-group-item-action">
-                <a href="#"
+                <a href="http://localhost/services/lists/26/view/0/?list_section_id="
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Ссылка на список бронирование
@@ -44,7 +47,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
             </li>
 
             <li class="list-group-item list-group-item-action">
-                <a href="#"
+                <a href="http://localhost/services/lists/16/view/0/?list_section_id="
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Ссылка на список врачей
@@ -69,5 +72,24 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
         </ul>
     </div>
 
+<pre><span class="folder">local/</span>
+└── modules/
+    └── alex.newmodule/
+        │
+        ├── lib/
+        │   ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Flib%2FBookingInstaller.php&full_src=Y&site=s1&lang=ru&&filter=Y&set_filter=Y">BookingInstaller.php</a></span>
+        │   │
+        │   ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Flib%2FProcedurePickerPropertyType.php&full_src=Y&site=s1&lang=ru&&filter=Y&set_filter=Y">ProcedurePickerPropertyType.php</a></span>
+        │   │
+        │   └── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Flib%2FProcedureSyncHandler.php&full_src=Y&site=s1&lang=ru&&filter=Y&set_filter=Y">ProcedureSyncHandler.php</a></span>
+        │
+        └── install/
+            ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Finstall%2Findex.php&site=s1&lang=ru">index.php</a></span>
+            │
+            ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Finstall%2Fstep2.php&site=s1&lang=ru">step2.php</a></span>
+            └── public/alex_newmodule/
+                └── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Finstall%2Fpublic%2Falex_newmodule%2Fbooking_create.php&full_src=Y&site=s1&lang=ru&&filter=Y&set_filter=Y">booking_create.php</a></span>
+
+</pre>
 
 <?php require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

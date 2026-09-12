@@ -8,6 +8,8 @@ use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__DIR__.'/index.php');
 
+$report = $GLOBALS['ALEX_NEWMODULE_INSTALL_REPORT'] ?? [];
+
 ?>
 
 <div class="adm-info-message-wrap">
@@ -15,6 +17,14 @@ Loc::loadMessages(__DIR__.'/index.php');
         <?= Loc::getMessage('ALEX_NEWMODULE_INSTALL_STEP2_SUCCESS') ?>
     </div>
 </div>
+
+<?php if (!empty($report)): ?>
+    <ul>
+        <?php foreach ($report as $line): ?>
+            <li><?= htmlspecialcharsbx($line) ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
 
 <p>
     <a href="/bitrix/admin/alex_newmodule_list.php?lang=<?= LANGUAGE_ID ?>">

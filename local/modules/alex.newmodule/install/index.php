@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
 
+Loader::includeModule('iblock');
 Loader::includeModule('main');
 
 class alex_newmodule extends CModule
@@ -44,21 +45,19 @@ class alex_newmodule extends CModule
 
             RegisterModule($this->MODULE_ID);
 
-            RegisterModuleDependences(
-                'main',
-                'OnBuildGlobalMenu',
-                $this->MODULE_ID,
-                '\Alex\Newmodule\EventHandler',
-                'onBuildGlobalMenu'
-            );
+            $this->InstallEvents();
 
-            RegisterModuleDependences(
-                'crm',
-                'onEntityDetailsTabsInitialized',
-                $this->MODULE_ID,
-                '\Alex\Newmodule\EventHandler',
-                'onEntityDetailsTabsInitialized'
-            );
+            // Автозагрузчик классов модуля (\Alex\Newmodule\*).
+            // Loader::includeModule здесь не подходит: модуль только что зарегистрирован.
+            require_once $this->GetPath().'/include.php';
+
+            try {
+                $GLOBALS['ALEX_NEWMODULE_INSTALL_REPORT'] = \Alex\Newmodule\BookingInstaller::install();
+            } catch (\Throwable $e) {
+                $GLOBALS['ALEX_NEWMODULE_INSTALL_REPORT'] = [
+                    'ОШИБКА при создании списка «Бронирование»: '.$e->getMessage(),
+                ];
+            }
 
             $APPLICATION->IncludeAdminFile(
                 Loc::getMessage('ALEX_NEWMODULE_INSTALL_TITLE'),
@@ -79,22 +78,15 @@ class alex_newmodule extends CModule
                 $this->GetPath().'/install/unstep1.php'
             );
         } else {
-            UnRegisterModuleDependences(
-                'main',
-                'OnBuildGlobalMenu',
-                $this->MODULE_ID,
-                '\Alex\Newmodule\EventHandler',
-                'onBuildGlobalMenu'
-            );
+            require_once $this->GetPath().'/include.php';
 
-            UnRegisterModuleDependences(
-                'crm',
-                'onEntityDetailsTabsInitialized',
-                $this->MODULE_ID,
-                '\Alex\Newmodule\EventHandler',
-                'onEntityDetailsTabsInitialized'
-            );
+            try {
+                \Alex\Newmodule\BookingInstaller::uninstall();
+            } catch (\Throwable $e) {
+                // удаление служебного свойства не должно ломать деинсталляцию
+            }
 
+            $this->UnInstallEvents();
             $this->UnInstallDB();
             $this->UnInstallFiles();
 
@@ -105,6 +97,50 @@ class alex_newmodule extends CModule
                 $this->GetPath().'/install/unstep2.php'
             );
         }
+    }
+
+    /**
+     * Обработчики регистрируются ДО создания свойства-виджета:
+     * CIBlockProperty::Add проверяет USER_TYPE по списку из OnIBlockPropertyBuildList.
+     */
+    public function InstallEvents()
+    {
+        foreach ($this->getEventList() as $event) {
+            RegisterModuleDependences(
+                $event[0],
+                $event[1],
+                $this->MODULE_ID,
+                $event[2],
+                $event[3]
+            );
+        }
+    }
+
+    public function UnInstallEvents()
+    {
+        foreach ($this->getEventList() as $event) {
+            UnRegisterModuleDependences(
+                $event[0],
+                $event[1],
+                $this->MODULE_ID,
+                $event[2],
+                $event[3]
+            );
+        }
+    }
+
+    /**
+     * [модуль-источник, событие, класс-обработчик, метод]
+     */
+    private function getEventList(): array
+    {
+        return [
+            ['iblock', 'OnIBlockPropertyBuildList', '\Alex\Newmodule\ProcedurePickerPropertyType', 'GetUserTypeDescription'],
+            ['iblock', 'OnAfterIBlockElementAdd', '\Alex\Newmodule\ProcedureSyncHandler', 'onAfterAdd'],
+            ['iblock', 'OnAfterIBlockElementUpdate', '\Alex\Newmodule\ProcedureSyncHandler', 'onAfterUpdate'],
+            ['main', 'OnBuildGlobalMenu', '\Alex\Newmodule\EventHandler', 'onBuildGlobalMenu'],
+            ['crm', 'onEntityDetailsTabsInitialized', '\Alex\Newmodule\EventHandler', 'onEntityDetailsTabsInitialized'],
+        ];
     }
 
     public function InstallDB()
@@ -156,15 +192,20 @@ class alex_newmodule extends CModule
     public function UnInstallFiles()
     {
         $adminFile = $_SERVER['DOCUMENT_ROOT'].'/bitrix/admin/alex_newmodule_list.php';
+
         if (file_exists($adminFile)) {
             unlink($adminFile);
         }
 
-        $publicFile = $_SERVER['DOCUMENT_ROOT'].'/alex_newmodule/index.php';
-        if (file_exists($publicFile)) {
-            unlink($publicFile);
-            @rmdir($_SERVER['DOCUMENT_ROOT'].'/alex_newmodule');
+        $publicDir = $_SERVER['DOCUMENT_ROOT'].'/alex_newmodule';
+
+        foreach (['index.php', 'ajax_tab.php', 'booking_create.php'] as $fileName) {
+            if (file_exists($publicDir.'/'.$fileName)) {
+                unlink($publicDir.'/'.$fileName);
+            }
         }
+
+        @rmdir($publicDir);
     }
 
     public function GetPath()
