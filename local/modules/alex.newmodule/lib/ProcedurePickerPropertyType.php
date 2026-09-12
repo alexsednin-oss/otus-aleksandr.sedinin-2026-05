@@ -18,6 +18,9 @@ class ProcedurePickerPropertyType
     /** Скрипт попапа печатаем один раз на страницу */
     private static bool $scriptPrinted = false;
 
+    /**
+     * @return array
+     */
     public static function GetUserTypeDescription(): array
     {
         return [
@@ -32,11 +35,21 @@ class ProcedurePickerPropertyType
         ];
     }
 
+    /**
+     * @param $property
+     * @param $value
+     * @return mixed
+     */
     public static function ConvertToDB($property, $value)
     {
         return $value;
     }
 
+    /**
+     * @param $property
+     * @param $value
+     * @return mixed
+     */
     public static function ConvertFromDB($property, $value)
     {
         return $value;
@@ -69,6 +82,11 @@ class ProcedurePickerPropertyType
             . '» при сохранении врача.</div>';
     }
 
+    /**
+     * @param string $csv
+     * @return string
+     * @throws \Bitrix\Main\LoaderException
+     */
     private static function renderLinks(string $csv): string
     {
         $csv = trim($csv);
@@ -110,6 +128,9 @@ class ProcedurePickerPropertyType
         return $html;
     }
 
+    /**
+     * @return string
+     */
     private static function getPopupScriptOnce(): string
     {
         if (self::$scriptPrinted) {
@@ -121,6 +142,9 @@ class ProcedurePickerPropertyType
         return self::getPopupScript();
     }
 
+    /**
+     * @return string
+     */
     private static function getPopupScript(): string
     {
         return <<<'HTML'

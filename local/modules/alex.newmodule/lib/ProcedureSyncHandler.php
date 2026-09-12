@@ -18,16 +18,28 @@ class ProcedureSyncHandler
     /** Защита от повторного входа */
     private static bool $inProgress = false;
 
+    /**
+     * @param $arFields
+     * @return void
+     */
     public static function onAfterAdd($arFields): void
     {
         self::handle($arFields);
     }
 
+    /**
+     * @param $arFields
+     * @return void
+     */
     public static function onAfterUpdate($arFields): void
     {
         self::handle($arFields);
     }
 
+    /**
+     * @param $arFields
+     * @return void
+     */
     private static function handle($arFields): void
     {
         if (self::$inProgress || !is_array($arFields)) {

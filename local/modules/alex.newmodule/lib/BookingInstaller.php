@@ -126,6 +126,13 @@ class BookingInstaller
         return self::$doctorIblockId;
     }
 
+    /**
+     * @return int
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     */
     public static function getBookingIblockId(): int
     {
         Loader::includeModule('iblock');
@@ -162,6 +169,13 @@ class BookingInstaller
         return $count;
     }
 
+    /**
+     * @return int
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     */
     private static function createBookingIblock(): int
     {
         $existingId = self::getBookingIblockId();
@@ -290,9 +304,6 @@ class BookingInstaller
         $propertyId = (int) $prop->Add($fields);
 
         if (!$propertyId) {
-            // CIBlockProperty::Add проверяет USER_TYPE по списку зарегистрированных типов.
-            // Если обработчик OnIBlockPropertyBuildList ещё не «виден» в этом запросе —
-            // создаём обычное строковое свойство и дописываем USER_TYPE напрямую в таблицу.
             unset($fields['USER_TYPE']);
 
             $prop       = new \CIBlockProperty();
@@ -311,6 +322,11 @@ class BookingInstaller
         return $propertyId;
     }
 
+    /**
+     * @param int $propertyId
+     * @return void
+     * @throws \Exception
+     */
     private static function forceUserType(int $propertyId): void
     {
         PropertyTable::update($propertyId, [
@@ -321,6 +337,9 @@ class BookingInstaller
         self::clearIblockPropertyCache();
     }
 
+    /**
+     * @return void
+     */
     private static function clearIblockPropertyCache(): void
     {
         $managedCache = Application::getInstance()->getManagedCache();
