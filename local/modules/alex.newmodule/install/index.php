@@ -140,6 +140,10 @@ class alex_newmodule extends CModule
             ['iblock', 'OnAfterIBlockElementUpdate', '\Alex\Newmodule\ProcedureSyncHandler', 'onAfterUpdate'],
             ['main', 'OnBuildGlobalMenu', '\Alex\Newmodule\EventHandler', 'onBuildGlobalMenu'],
             ['crm', 'onEntityDetailsTabsInitialized', '\Alex\Newmodule\EventHandler', 'onEntityDetailsTabsInitialized'],
+
+            // Подтверждение начала рабочего дня
+            ['main', 'OnProlog', '\Alex\Newmodule\WorkdayStartHandler', 'onProlog'],
+            ['timeman', 'OnBeforeTMDayStart', '\Alex\Newmodule\WorkdayStartHandler', 'onBeforeDayStart'],
         ];
     }
 
@@ -199,7 +203,15 @@ class alex_newmodule extends CModule
 
         $publicDir = $_SERVER['DOCUMENT_ROOT'].'/alex_newmodule';
 
-        foreach (['index.php', 'ajax_tab.php', 'booking_create.php'] as $fileName) {
+        $publicFiles = [
+            'index.php',
+            'ajax_tab.php',
+            'booking_create.php',
+            'workday_confirm.php',
+            'workday_start.js',
+        ];
+
+        foreach ($publicFiles as $fileName) {
             if (file_exists($publicDir.'/'.$fileName)) {
                 unlink($publicDir.'/'.$fileName);
             }
@@ -213,3 +225,4 @@ class alex_newmodule extends CModule
         return $_SERVER['DOCUMENT_ROOT'].'/local/modules/'.$this->MODULE_ID;
     }
 }
+
