@@ -226,3 +226,182 @@ Class "Bitrix\Iblock\IblockTable" not found (0)
 	/var/www/bitrix/bitrix/admin/partner_modules.php:2
 ----------
 
+Otus - 2026-10-04 23:26:45 - Host: localhost - UNCAUGHT_EXCEPTION - [ParseError] 
+syntax error, unexpected string content ";", expecting end of file (0)
+/var/www/bitrix/bitrix/modules/main/admin/php_command_line.php(135) : eval()'d code:3
+#0: require_once
+	/var/www/bitrix/bitrix/admin/php_command_line.php:2
+----------
+
+Otus - 2026-10-04 23:59:45 - Host: localhost - UNCAUGHT_EXCEPTION - [ParseError] 
+syntax error, unexpected string content ";", expecting end of file (0)
+/var/www/bitrix/bitrix/modules/main/admin/php_command_line.php(135) : eval()'d code:26
+#0: require_once
+	/var/www/bitrix/bitrix/admin/php_command_line.php:2
+----------
+
+Otus - 2026-10-08 00:44:05 - Host: localhost - UNCAUGHT_EXCEPTION - [TypeError] 
+unserialize(): Argument #1 ($data) must be of type string, array given (0)
+/var/www/bitrix/bitrix/modules/main/admin/php_command_line.php(135) : eval()'d code:11
+#0: unserialize
+	/var/www/bitrix/bitrix/modules/main/admin/php_command_line.php(135) : eval()'d code:11
+#1: eval
+	/var/www/bitrix/bitrix/modules/main/admin/php_command_line.php:135
+#2: require_once(string)
+	/var/www/bitrix/bitrix/admin/php_command_line.php:2
+----------
+
+Otus - 2026-10-08 00:57:21 - Host: localhost - UNCAUGHT_EXCEPTION - [Error] 
+Call to a member function Fetch() on bool (0)
+/var/www/bitrix/bitrix/modules/main/admin/php_command_line.php(135) : eval()'d code:30
+#0: eval
+	/var/www/bitrix/bitrix/modules/main/admin/php_command_line.php:135
+#1: require_once(string)
+	/var/www/bitrix/bitrix/admin/php_command_line.php:2
+----------
+
+Otus - 2026-10-08 20:38:22 - Host: localhost - UNKNOWN - [Bitrix\Main\DB\SqlQueryException] 
+Mysql query error: (2006) MySQL server has gone away (400)
+SELECT * FROM `b_event_log` LIMIT 0
+/var/www/bitrix/bitrix/modules/main/lib/db/mysqlcommonconnection.php:417
+#0: Bitrix\Main\DB\MysqlCommonConnection->createQueryException
+	/var/www/bitrix/bitrix/modules/main/classes/general/database.php:670
+#1: CAllDatabase->Query
+	/var/www/bitrix/bitrix/modules/main/classes/mysql/database.php:504
+#2: CDatabaseMysql->GetTableFields
+	/var/www/bitrix/bitrix/modules/main/classes/mysql/database.php:172
+#3: CDatabaseMysql->PrepareInsert
+	/var/www/bitrix/bitrix/modules/main/classes/mysql/database.php:418
+#4: CDatabaseMysql->Add
+	/var/www/bitrix/bitrix/modules/main/classes/general/event_log.php:93
+#5: CEventLog::Add
+	/var/www/bitrix/bitrix/modules/main/classes/general/event_log.php:34
+#6: CEventLog::Log
+	/var/www/bitrix/bitrix/modules/main/lib/security/notifications/vendornotifier.php:100
+#7: Bitrix\Main\Security\Notifications\VendorNotifier::refreshNotifications
+	
+#8: call_user_func_array
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:862
+#9: Bitrix\Main\Application->runBackgroundJobs
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:377
+#10: Bitrix\Main\Application->terminate
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:329
+#11: Bitrix\Main\Application->end
+	/var/www/bitrix/bitrix/modules/main/public/session.php:35
+#12: require(string)
+	/var/www/bitrix/bitrix/tools/public_session.php:1
+----------
+
+Otus - 2026-10-08 20:38:22 - Host: localhost - UNKNOWN - [Bitrix\Main\DB\SqlQueryException] 
+Mysql query error: (2006) MySQL server has gone away (400)
+INSERT INTO b_event_log() VALUES()
+/var/www/bitrix/bitrix/modules/main/lib/db/mysqlcommonconnection.php:417
+#0: Bitrix\Main\DB\MysqlCommonConnection->createQueryException
+	/var/www/bitrix/bitrix/modules/main/classes/general/database.php:670
+#1: CAllDatabase->Query
+	/var/www/bitrix/bitrix/modules/main/classes/mysql/database.php:422
+#2: CDatabaseMysql->Add
+	/var/www/bitrix/bitrix/modules/main/classes/general/event_log.php:93
+#3: CEventLog::Add
+	/var/www/bitrix/bitrix/modules/main/classes/general/event_log.php:34
+#4: CEventLog::Log
+	/var/www/bitrix/bitrix/modules/main/lib/security/w/wwall.php:1
+#5: Bitrix\Main\Security\W\WWall::refreshRules
+	
+#6: call_user_func_array
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:862
+#7: Bitrix\Main\Application->runBackgroundJobs
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:377
+#8: Bitrix\Main\Application->terminate
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:329
+#9: Bitrix\Main\Application->end
+	/var/www/bitrix/bitrix/modules/main/public/session.php:35
+#10: require(string)
+	/var/www/bitrix/bitrix/tools/public_session.php:1
+----------
+
+Otus - 2026-10-08 20:38:22 - Host: localhost - UNKNOWN - [Bitrix\Main\DB\SqlQueryException] 
+Mysql query error: (2006) MySQL server has gone away (400)
+
+			SELECT 'x'
+			FROM b_agent
+			WHERE
+				ACTIVE = 'Y'
+				AND NEXT_EXEC <= NOW()
+				AND (DATE_CHECK IS NULL OR DATE_CHECK <= NOW())
+				
+			LIMIT 1
+		
+/var/www/bitrix/bitrix/modules/main/lib/db/mysqlcommonconnection.php:417
+#0: Bitrix\Main\DB\MysqlCommonConnection->createQueryException
+	/var/www/bitrix/bitrix/modules/main/classes/general/database.php:670
+#1: CAllDatabase->Query
+	/var/www/bitrix/bitrix/modules/main/classes/general/agent.php:404
+#2: CAgent::ExecuteAgents
+	/var/www/bitrix/bitrix/modules/main/classes/general/agent.php:357
+#3: CAgent::CheckAgents
+	
+#4: call_user_func_array
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:862
+#5: Bitrix\Main\Application->runBackgroundJobs
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:377
+#6: Bitrix\Main\Application->terminate
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:329
+#7: Bitrix\Main\Application->end
+	/var/www/bitrix/bitrix/modules/main/public/session.php:35
+#8: require(string)
+	/var/www/bitrix/bitrix/tools/public_session.php:1
+----------
+
+Otus - 2026-10-08 20:38:22 - Host: localhost - UNKNOWN - [Bitrix\Main\DB\SqlQueryException] 
+Mysql query error: (2006) MySQL server has gone away (400)
+SELECT 'x' FROM b_event WHERE SUCCESS_EXEC='N' LIMIT 1
+/var/www/bitrix/bitrix/modules/main/lib/db/mysqlcommonconnection.php:417
+#0: Bitrix\Main\DB\MysqlCommonConnection->createQueryException
+	/var/www/bitrix/bitrix/modules/main/lib/db/mysqliconnection.php:149
+#1: Bitrix\Main\DB\MysqliConnection->queryInternal
+	/var/www/bitrix/bitrix/modules/main/lib/db/connection.php:324
+#2: Bitrix\Main\DB\Connection->query
+	/var/www/bitrix/bitrix/modules/main/lib/mail/eventmanager.php:58
+#3: Bitrix\Main\Mail\EventManager::executeEvents
+	/var/www/bitrix/bitrix/modules/main/lib/mail/eventmanager.php:36
+#4: Bitrix\Main\Mail\EventManager::checkEvents
+	
+#5: call_user_func_array
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:862
+#6: Bitrix\Main\Application->runBackgroundJobs
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:377
+#7: Bitrix\Main\Application->terminate
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:329
+#8: Bitrix\Main\Application->end
+	/var/www/bitrix/bitrix/modules/main/public/session.php:35
+#9: require(string)
+	/var/www/bitrix/bitrix/tools/public_session.php:1
+----------
+
+Otus - 2026-10-08 20:38:22 - Host: localhost - UNCAUGHT_EXCEPTION - [Bitrix\Main\DB\SqlQueryException] 
+Mysql query error: (2006) MySQL server has gone away (400)
+SELECT 'x' FROM b_event WHERE SUCCESS_EXEC='N' LIMIT 1
+/var/www/bitrix/bitrix/modules/main/lib/db/mysqlcommonconnection.php:417
+#0: Bitrix\Main\DB\MysqlCommonConnection->createQueryException
+	/var/www/bitrix/bitrix/modules/main/lib/db/mysqliconnection.php:149
+#1: Bitrix\Main\DB\MysqliConnection->queryInternal
+	/var/www/bitrix/bitrix/modules/main/lib/db/connection.php:324
+#2: Bitrix\Main\DB\Connection->query
+	/var/www/bitrix/bitrix/modules/main/lib/mail/eventmanager.php:58
+#3: Bitrix\Main\Mail\EventManager::executeEvents
+	/var/www/bitrix/bitrix/modules/main/lib/mail/eventmanager.php:36
+#4: Bitrix\Main\Mail\EventManager::checkEvents
+	
+#5: call_user_func_array
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:862
+#6: Bitrix\Main\Application->runBackgroundJobs
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:377
+#7: Bitrix\Main\Application->terminate
+	/var/www/bitrix/bitrix/modules/main/lib/application.php:329
+#8: Bitrix\Main\Application->end
+	/var/www/bitrix/bitrix/modules/main/public/session.php:35
+#9: require(string)
+	/var/www/bitrix/bitrix/tools/public_session.php:1
+----------
+
