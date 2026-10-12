@@ -51,13 +51,27 @@ class alex_newmodule extends CModule
             // Loader::includeModule здесь не подходит: модуль только что зарегистрирован.
             require_once $this->GetPath().'/include.php';
 
+            $report = [];
+
             try {
-                $GLOBALS['ALEX_NEWMODULE_INSTALL_REPORT'] = \Alex\Newmodule\BookingInstaller::install();
+                $report = \Alex\Newmodule\BookingInstaller::install();
             } catch (\Throwable $e) {
-                $GLOBALS['ALEX_NEWMODULE_INSTALL_REPORT'] = [
-                    'ОШИБКА при создании списка «Бронирование»: '.$e->getMessage(),
-                ];
+                $report[] = 'ОШИБКА при создании списка «Бронирование»: '.$e->getMessage();
             }
+
+            try {
+                $report = array_merge($report, \Alex\Newmodule\OrderIblockInstaller::install());
+            } catch (\Throwable $e) {
+                $report[] = 'ОШИБКА при создании инфоблока «Заказы»: '.$e->getMessage();
+            }
+
+            try {
+                $report = array_merge($report, \Alex\Newmodule\RequestIblockInstaller::install());
+            } catch (\Throwable $e) {
+                $report[] = 'ОШИБКА при создании инфоблока «Заявки»: '.$e->getMessage();
+            }
+
+            $GLOBALS['ALEX_NEWMODULE_INSTALL_REPORT'] = $report;
 
             $APPLICATION->IncludeAdminFile(
                 Loc::getMessage('ALEX_NEWMODULE_INSTALL_TITLE'),
@@ -84,6 +98,12 @@ class alex_newmodule extends CModule
                 \Alex\Newmodule\BookingInstaller::uninstall();
             } catch (\Throwable $e) {
                 // удаление служебного свойства не должно ломать деинсталляцию
+            }
+
+            try {
+                \Alex\Newmodule\OrderIblockInstaller::uninstall();
+            } catch (\Throwable $e) {
+                // шаблон БП можно удалить вручную
             }
 
             $this->UnInstallEvents();
@@ -134,7 +154,7 @@ class alex_newmodule extends CModule
      */
     private function getEventList(): array
     {
-        return [
+        $events = [
             ['iblock', 'OnIBlockPropertyBuildList', '\Alex\Newmodule\ProcedurePickerPropertyType', 'GetUserTypeDescription'],
             ['iblock', 'OnAfterIBlockElementAdd', '\Alex\Newmodule\ProcedureSyncHandler', 'onAfterAdd'],
             ['iblock', 'OnAfterIBlockElementUpdate', '\Alex\Newmodule\ProcedureSyncHandler', 'onAfterUpdate'],
@@ -145,6 +165,13 @@ class alex_newmodule extends CModule
             ['main', 'OnProlog', '\Alex\Newmodule\WorkdayStartHandler', 'onProlog'],
             ['timeman', 'OnBeforeTMDayStart', '\Alex\Newmodule\WorkdayStartHandler', 'onBeforeDayStart'],
         ];
+
+        // Синхронизация «Заявки ↔ Сделки» — список держит сам класс
+        if (class_exists('\Alex\Newmodule\DealRequestSync')) {
+            $events = array_merge($events, \Alex\Newmodule\DealRequestSync::getEvents());
+        }
+
+        return $events;
     }
 
     public function InstallDB()
@@ -191,6 +218,16 @@ class alex_newmodule extends CModule
             true,
             true
         );
+
+        // Действия бизнес-процессов — в /local/activities/custom/
+        CheckDirPath($_SERVER['DOCUMENT_ROOT'].'/local/activities/custom/');
+
+        CopyDirFiles(
+            $this->GetPath().'/install/activities',
+            $_SERVER['DOCUMENT_ROOT'].'/local/activities/custom',
+            true,
+            true
+        );
     }
 
     public function UnInstallFiles()
@@ -218,6 +255,8 @@ class alex_newmodule extends CModule
         }
 
         @rmdir($publicDir);
+
+        DeleteDirFilesEx('/local/activities/custom/alexdadatacompany');
     }
 
     public function GetPath()
@@ -225,4 +264,3 @@ class alex_newmodule extends CModule
         return $_SERVER['DOCUMENT_ROOT'].'/local/modules/'.$this->MODULE_ID;
     }
 }
-
