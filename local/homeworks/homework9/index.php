@@ -14,7 +14,8 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
 
 <h4 class="mb-3">Пояснительная записка</h4>
 <div>
-    Тут добавить описание того что и как было реализовано.
+    Написано кастомное активити для БП которое ходит в сервис DaData и по ИНН возвращает наименование Юр лица
+    Если такой компании в системе нет, то создается новая карточка компании, и цепляется в соответствующее поле элемента инфоблока "Заявки".
 </div>
 <br>
 <br>
@@ -32,7 +33,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
         <ul class="list-group list-group-flush">
 
             <li class="list-group-item list-group-item-action">
-                <a href="#"
+                <a href="/services/lists/29/bp_edit/"
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Ссылка на БП
@@ -44,7 +45,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
             </li>
 
             <li class="list-group-item list-group-item-action">
-                <a href="#"
+                <a href="/services/lists/29/view/0/?list_section_id="
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Ссылка на ИБ
@@ -66,32 +67,25 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
                 </span>
                 </a>
             </li>
-
-            <li class="list-group-item list-group-item-action">
-                <a href="#"
-                   class="d-flex justify-content-between align-items-center">
-                <span>
-                    Ссылка на активити
-                </span>
-                    <span class="badge bg-secondary">
-                    файл в админке
-                </span>
-                </a>
-            </li>
-
-            <li class="list-group-item list-group-item-action">
-                <a href="/bitrix/admin/fileman_file_view.php?path=/local/App/Debug/Log.php"
-                   class="d-flex justify-content-between align-items-center">
-                <span>
-                    Ссылки на просмотр кода основных файлов ДЗ (связь таблиц, ORM, классы  и т.д.)
-                </span>
-                    <span class="badge bg-warning">
-                    файл в админке
-                </span>
-                </a>
-            </li>
         </ul>
     </div>
-
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-success text-white">
+        Файлы проекта
+    </div>
+</div>
+<pre><span class="folder">local/modules/alex.newmodule/</span>
+├── lib/
+│   ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Flib%2FDaDataClient.php&site=s1&lang=ru">DaDataClient.php</a></span>
+│   ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Flib%2FCrmCompanyBuilder.php&site=s1&lang=ru">CrmCompanyBuilder.php</a></span>
+│   └── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Flib%2FOrderIblockInstaller.php&site=s1&lang=ru">OrderIblockInstaller.php</a></span>
+└── install/
+    ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Finstall%2Findex.php&site=s1&lang=ru">index.php</a></span>
+    └── activities/
+        └── alexdadatacompany/
+            ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Finstall%2Factivities%2Falexdadatacompany%2F.description.php&site=s1&lang=ru">.description.php</a></span>
+            ├── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Finstall%2Factivities%2Falexdadatacompany%2Falexdadatacompany.php&site=s1&lang=ru">alexdadatacompany.php</a></span>
+            └── <span class="file"><a href="/bitrix/admin/fileman_file_view.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Finstall%2Factivities%2Falexdadatacompany%2Fproperties_dialog.php&site=s1&lang=ru">properties_dialog.php</a></span>
+</pre>
 
 <?php require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
