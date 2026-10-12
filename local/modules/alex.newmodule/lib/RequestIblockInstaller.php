@@ -19,17 +19,12 @@ class RequestIblockInstaller
     public const IBLOCK_CODE = 'alex_newmodule_requests';
     public const IBLOCK_NAME = 'Заявки';
     public const IBLOCK_TYPE = 'lists';
-
     public const PROP_DEAL        = 'DEAL';
     public const PROP_AMOUNT      = 'AMOUNT';
     public const PROP_ASSIGNED_BY = 'ASSIGNED_BY';
-
-    /** Кэш ID инфоблока в рамках запроса */
     private static ?int $iblockId = null;
 
-    /**
-     * @return string[] отчёт
-     */
+
     public static function install(): array
     {
         Loader::includeModule('iblock');
@@ -105,9 +100,6 @@ class RequestIblockInstaller
         return self::$iblockId;
     }
 
-    /**
-     * @return array<string,array{ID:int,TYPE:string}>
-     */
     private static function ensureProperties(int $iblockId): array
     {
         $definitions = [

@@ -19,18 +19,19 @@ class DaDataClient
     public const MODULE_ID = 'alex.newmodule';
     public const URL       = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party';
 
+    /**
+     * @return string
+     */
     public static function getToken(): string
     {
         return trim((string) Option::get(self::MODULE_ID, 'dadata_token', ''));
     }
 
     /**
-     * Ищет организацию по ИНН.
-     *
-     * @return array|null Найденная подсказка: ['value' => 'ООО «Ромашка»', 'data' => [...]]
-     *                    или null, если ничего не нашлось.
-     *
-     * @throws \RuntimeException при ошибке конфигурации или ответа сервиса
+     * @param string $inn
+     * @param string $kpp
+     * @return array|null
+     * @throws \Bitrix\Main\ArgumentException
      */
     public static function findByInn(string $inn, string $kpp = ''): ?array
     {

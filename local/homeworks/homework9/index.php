@@ -33,7 +33,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
         <ul class="list-group list-group-flush">
 
             <li class="list-group-item list-group-item-action">
-                <a href="/services/lists/29/bp_edit/"
+                <a href="http://localhost/bitrix/admin/iblock_bizproc_workflow_admin.php?document_type=iblock_29&lang=ru&back_url_list=%2Fbitrix%2Fadmin%2Fiblock_edit.php%3FID%3D29%26type%3Dlists%26lang%3Dru%26admin%3DY"
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Ссылка на БП

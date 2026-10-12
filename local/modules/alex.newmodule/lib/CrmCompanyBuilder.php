@@ -74,8 +74,10 @@ class CrmCompanyBuilder
         ];
     }
 
-    // ---------------------------------------------------------------- компания
-
+    /**
+     * @param array $suggestion
+     * @return string
+     */
     private static function resolveTitle(array $suggestion): string
     {
         $data = $suggestion['data'] ?? [];
@@ -97,6 +99,12 @@ class CrmCompanyBuilder
         return $title;
     }
 
+    /**
+     * @param string $title
+     * @param array $data
+     * @param string $companyType
+     * @return int
+     */
     private static function addCompany(string $title, array $data, string $companyType): int
     {
         global $USER;
@@ -137,6 +145,10 @@ class CrmCompanyBuilder
         return $companyId;
     }
 
+    /**
+     * @param array $data
+     * @return string
+     */
     private static function buildComments(array $data): string
     {
         $lines = [];
@@ -165,6 +177,10 @@ class CrmCompanyBuilder
         return implode("\n", $lines);
     }
 
+    /**
+     * @param int $companyId
+     * @return string
+     */
     private static function getCompanyTitle(int $companyId): string
     {
         $row = \CCrmCompany::GetListEx(
@@ -178,10 +194,9 @@ class CrmCompanyBuilder
         return $row ? (string) $row['TITLE'] : '';
     }
 
-    // --------------------------------------------------------------- реквизиты
-
     /**
-     * Поиск компании по ИНН среди реквизитов — чтобы не плодить дубли.
+     * @param string $inn
+     * @return int
      */
     public static function findCompanyByInn(string $inn): int
     {
@@ -207,6 +222,11 @@ class CrmCompanyBuilder
         return $row ? (int) $row['ENTITY_ID'] : 0;
     }
 
+    /**
+     * @param int $companyId
+     * @param array $suggestion
+     * @return int
+     */
     private static function addRequisite(int $companyId, array $suggestion): int
     {
         if (!class_exists('\Bitrix\Crm\EntityRequisite')) {
@@ -268,6 +288,9 @@ class CrmCompanyBuilder
         return $requisiteId;
     }
 
+    /**
+     * @return int
+     */
     private static function getPresetId(): int
     {
         if (!class_exists('\Bitrix\Crm\EntityPreset')) {
@@ -295,8 +318,9 @@ class CrmCompanyBuilder
     }
 
     /**
-     * Юридический адрес реквизита. Класс адреса переезжал между namespace,
-     * поэтому пробуем оба и молча пропускаем, если ни одного нет.
+     * @param int $requisiteId
+     * @param array $data
+     * @return void
      */
     private static function addRequisiteAddress(int $requisiteId, array $data): void
     {
@@ -342,8 +366,6 @@ class CrmCompanyBuilder
                 $typeId,
                 array_filter($fields)
             );
-        } catch (\Throwable $e) {
-            // адрес — необязательная часть, молча пропускаем
-        }
+        } catch (\Throwable $e) {}
     }
 }

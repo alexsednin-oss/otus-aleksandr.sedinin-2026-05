@@ -19,7 +19,6 @@ class OrderIblockInstaller
     public const TEMPLATE_NAME = 'Заказчик из DaData';
     public const ACTIVITY_TYPE = 'AlexDadataCompany';
 
-    /** Свойства инфоблока: CODE => [NAME, PROPERTY_TYPE, SORT] */
     public const PROPERTIES = [
         'AMOUNT'       => ['Сумма', 'N', 100],
         'CUSTOMER_INN' => ['Заказчик ИНН', 'S', 200],
@@ -27,9 +26,7 @@ class OrderIblockInstaller
         'WORK_TYPE'    => ['Вид работ', 'S', 400],
     ];
 
-    /**
-     * @return string[] отчёт для страницы установки
-     */
+
     public static function install(): array
     {
         Loader::includeModule('iblock');
@@ -93,8 +90,6 @@ class OrderIblockInstaller
         return $row ? (int) $row['ID'] : 0;
     }
 
-    // ------------------------------------------------------------- инфоблок
-
     private static function createIblock(): int
     {
         $existingId = self::getIblockId();
@@ -131,9 +126,6 @@ class OrderIblockInstaller
         return (int) $iblockId;
     }
 
-    /**
-     * @return array<string,int> CODE => PROPERTY_ID
-     */
     private static function ensureProperties(int $iblockId): array
     {
         $result = [];
@@ -205,9 +197,7 @@ class OrderIblockInstaller
         return is_array($userType) && !empty($userType);
     }
 
-    /**
-     * Свойство «Заказчик» хранит привязку к CRM (значение вида CO_12)?
-     */
+
     public static function isCustomerCrmBound(int $iblockId): bool
     {
         Loader::includeModule('iblock');
@@ -223,10 +213,6 @@ class OrderIblockInstaller
 
     // ------------------------------------------------------- бизнес-процесс
 
-    /**
-     * Тип документа для шаблона БП.
-     * Списки (модуль lists) — BizprocDocument, обычные инфоблоки — CIBlockDocument.
-     */
     public static function getDocumentType(int $iblockId): array
     {
         return ['iblock', 'CIBlockDocument', 'iblock_' . $iblockId];

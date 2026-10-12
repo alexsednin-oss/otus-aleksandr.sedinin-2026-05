@@ -36,6 +36,10 @@ class CBPAlexDadataCompany extends CBPActivity
         ];
     }
 
+    /**
+     * @return int
+     * @throws \Bitrix\Main\LoaderException
+     */
     public function Execute()
     {
         $this->CompanyId = 0;
@@ -89,7 +93,8 @@ class CBPAlexDadataCompany extends CBPActivity
     }
 
     /**
-     * Запись компании в поле документа «Заказчик».
+     * @param array $company
+     * @return void
      */
     private function updateCustomerField(array $company): void
     {
@@ -132,6 +137,10 @@ class CBPAlexDadataCompany extends CBPActivity
         $this->WriteToTrackingService('Поле «Заказчик» обновлено: ' . $company['TITLE'] . ' (' . $value . ')');
     }
 
+    /**
+     * @param string $message
+     * @return int
+     */
     private function fail(string $message): int
     {
         $this->ErrorMessage = $message;
@@ -142,6 +151,16 @@ class CBPAlexDadataCompany extends CBPActivity
 
     // ------------------------------------------------- диалог настроек в дизайнере
 
+    /**
+     * @param $documentType
+     * @param $activityName
+     * @param $arWorkflowTemplate
+     * @param $arWorkflowParameters
+     * @param $arWorkflowVariables
+     * @param $arCurrentValues
+     * @param $formName
+     * @return false|string|null
+     */
     public static function GetPropertiesDialog(
         $documentType,
         $activityName,
@@ -174,6 +193,16 @@ class CBPAlexDadataCompany extends CBPActivity
         );
     }
 
+    /**
+     * @param $documentType
+     * @param $activityName
+     * @param $arWorkflowTemplate
+     * @param $arWorkflowParameters
+     * @param $arWorkflowVariables
+     * @param $arCurrentValues
+     * @param $arErrors
+     * @return bool
+     */
     public static function GetPropertiesDialogValues(
         $documentType,
         $activityName,
