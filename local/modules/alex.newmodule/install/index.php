@@ -45,11 +45,11 @@ class alex_newmodule extends CModule
 
             RegisterModule($this->MODULE_ID);
 
-            $this->InstallEvents();
-
             // Автозагрузчик классов модуля (\Alex\Newmodule\*).
             // Loader::includeModule здесь не подходит: модуль только что зарегистрирован.
             require_once $this->GetPath().'/include.php';
+
+            $this->InstallEvents();
 
             $report = [];
 
@@ -164,12 +164,12 @@ class alex_newmodule extends CModule
             // Подтверждение начала рабочего дня
             ['main', 'OnProlog', '\Alex\Newmodule\WorkdayStartHandler', 'onProlog'],
             ['timeman', 'OnBeforeTMDayStart', '\Alex\Newmodule\WorkdayStartHandler', 'onBeforeDayStart'],
-        ];
 
         // Синхронизация «Заявки ↔ Сделки» — список держит сам класс
-        if (class_exists('\Alex\Newmodule\DealRequestSync')) {
-            $events = array_merge($events, \Alex\Newmodule\DealRequestSync::getEvents());
-        }
+            ['iblock', 'OnAfterIBlockElementAdd', '\Alex\Newmodule\DealRequestSync', 'onIblockElementAdd'],
+            ['iblock', 'OnAfterIBlockElementUpdate', '\Alex\Newmodule\DealRequestSync', 'onIblockElementUpdate'],
+            ['crm', 'OnAfterCrmDealUpdate', '\Alex\Newmodule\DealRequestSync', 'onCrmDealUpdate'],
+        ];
 
         return $events;
     }
