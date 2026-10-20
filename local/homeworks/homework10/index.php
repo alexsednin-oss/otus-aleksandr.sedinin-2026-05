@@ -14,7 +14,8 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
 
 <h4 class="mb-3">Пояснительная записка</h4>
 <div>
-    Тут добавить описание того что и как было реализовано.
+    Реализованы события обновления элемента в списке "Заявки" и сущности сделка.
+    При обновлении ответственного или суммы, данные синхронизируются на связанный объект
 </div>
 <br>
 <br>
@@ -33,7 +34,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
         <ul class="list-group list-group-flush">
 
             <li class="list-group-item list-group-item-action">
-                <a href="#"
+                <a href="services/lists/28/view/0/"
                    class="d-flex justify-content-between align-items-center">
                 <span>
                     Ссылка на ИБ Заявки
@@ -55,44 +56,15 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
                 </span>
                 </a>
             </li>
-
-            <li class="list-group-item list-group-item-action">
-                <a href="/bitrix/admin/fileman_file_view.php?path=/local/App/Debug/Log.php"
-                   class="d-flex justify-content-between align-items-center">
-                <span>
-                    Файл с используемыми событиями Сделки: НАЗВАНИЕ_СОБЫТИЯ - ФУНКЦИЯ
-                </span>
-                    <span class="badge bg-warning">
-                    файл в админке
-                </span>
-                </a>
-            </li>
-
-            <li class="list-group-item list-group-item-action">
-                <a href="/bitrix/admin/fileman_file_view.php?path=/local/App/Debug/Log.php"
-                   class="d-flex justify-content-between align-items-center">
-                <span>
-                    Файл с используемыми событиями Заявки: НАЗВАНИЕ_СОБЫТИЯ - ФУНКЦИЯ
-                </span>
-                    <span class="badge bg-warning">
-                    файл в админке
-                </span>
-                </a>
-            </li>
-
-            <li class="list-group-item list-group-item-action">
-                <a href="/bitrix/admin/fileman_file_view.php?path=/local/App/Debug/Log.php"
-                   class="d-flex justify-content-between align-items-center">
-                <span>
-                    Ссылки на просмотр кода основных файлов ДЗ (связь таблиц, ORM, классы  и т.д.)
-                </span>
-                    <span class="badge bg-warning">
-                    файл в админке
-                </span>
-                </a>
-            </li>
         </ul>
     </div>
-
+<br>
+<pre><span class="folder">local/modules/alex.newmodule/</span>
+├── lib/
+│   ├── <span class="file"><a href="/bitrix/admin/fileman_file_edit.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Flib%2FRequestIblockInstaller.php&full_src=Y&site=s1&lang=ru&&filter=Y&set_filter=Y">RequestIblockInstaller.php</a>       Установщик списка</span>
+│   └── <span class="file"><a href="/bitrix/admin/fileman_file_edit.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Flib%2FDealRequestSync.php&full_src=Y&site=s1&lang=ru&&filter=Y&set_filter=Y">DealRequestSync.php</a>              Обработчик событий</span>
+└── install/
+    └── <span class="file"><a href="/bitrix/admin/fileman_file_edit.php?path=%2Flocal%2Fmodules%2Falex.newmodule%2Finstall%2Findex.php&full_src=Y&site=s1&lang=ru&&filter=Y&set_filter=Y">index.php</a></span>
+</pre>
 
 <?php require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

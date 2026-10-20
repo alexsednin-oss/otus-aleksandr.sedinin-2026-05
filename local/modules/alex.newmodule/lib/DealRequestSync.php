@@ -26,7 +26,6 @@ class DealRequestSync
 {
     public const MODULE_ID = 'alex.newmodule';
 
-    /** Идёт синхронизация — встречные обработчики молчат */
     private static bool $lock = false;
 
     /**
