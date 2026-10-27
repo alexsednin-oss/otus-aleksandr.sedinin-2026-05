@@ -71,6 +71,12 @@ class alex_newmodule extends CModule
                 $report[] = 'ОШИБКА при создании инфоблока «Заявки»: '.$e->getMessage();
             }
 
+            try {
+                $report = array_merge($report, \Alex\Newmodule\LastCommunicationInstaller::install());
+            } catch (\Throwable $e) {
+                $report[] = 'ОШИБКА при создании поля «Дата последней коммуникации»: '.$e->getMessage();
+            }
+
             $GLOBALS['ALEX_NEWMODULE_INSTALL_REPORT'] = $report;
 
             $APPLICATION->IncludeAdminFile(
@@ -104,6 +110,12 @@ class alex_newmodule extends CModule
                 \Alex\Newmodule\OrderIblockInstaller::uninstall();
             } catch (\Throwable $e) {
                 // шаблон БП можно удалить вручную
+            }
+
+            try {
+                \Alex\Newmodule\LastCommunicationInstaller::uninstall();
+            } catch (\Throwable $e) {
+                // поле можно удалить вручную
             }
 
             $this->UnInstallEvents();
@@ -246,6 +258,8 @@ class alex_newmodule extends CModule
             'booking_create.php',
             'workday_confirm.php',
             'workday_start.js',
+            'app_install.php',
+            'app_handler.php',
         ];
 
         foreach ($publicFiles as $fileName) {
