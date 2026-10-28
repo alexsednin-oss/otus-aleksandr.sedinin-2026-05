@@ -181,6 +181,7 @@ class alex_newmodule extends CModule
             ['iblock', 'OnAfterIBlockElementAdd', '\Alex\Newmodule\DealRequestSync', 'onIblockElementAdd'],
             ['iblock', 'OnAfterIBlockElementUpdate', '\Alex\Newmodule\DealRequestSync', 'onIblockElementUpdate'],
             ['crm', 'OnAfterCrmDealUpdate', '\Alex\Newmodule\DealRequestSync', 'onCrmDealUpdate'],
+            ['rest', 'onEventManagerInitialize', '\Alex\Newmodule\LocalEventProvider', 'onEventManagerInitialize'],
         ];
 
         return $events;
