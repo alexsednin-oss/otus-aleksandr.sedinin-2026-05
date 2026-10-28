@@ -46,7 +46,7 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
     <section class="container-fluid">
 
         <h1 class="mb-3"><?php $APPLICATION->ShowTitle() ?></h1>
-        <div class="mb-3">Репозиторий: <a href="https://github.com/">https://github.com/</a> <span style="color:red;">&larr; указать URL своего репозитория</span></div>
+        <div class="mb-3">Репозиторий: <a href="https://github.com/">https://github.com/alexsednin-oss/otus-aleksandr.sedinin-2026-05</a></div>
         <ul class="item-list">
             <li>
                 <h2 class="item done">
@@ -55,47 +55,47 @@ Asset::getInstance()->addCss('//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bo
                 </h2>
             </li>
             <li>
-                <h2 class="item clock"><a href="homework2/">ДЗ #2: Отладка и логирование</a>
+                <h2 class="item done"><a href="homework2/">ДЗ #2: Отладка и логирование</a>
                     <i class="icon"></i>
                 </h2>
             </li>
             <li>
-                <h2 class="item fire"><a href="homework3/">ДЗ #3: Связывание моделей</a>
+                <h2 class="item done"><a href="homework3/">ДЗ #3: Связывание моделей</a>
                     <i class="icon"></i>
                 </h2>
             </li>
             <li>
-                <h2 class="item"><a href="homework4/">ДЗ #4: Создание своих таблиц БД и написание модели данных к ним</a>
+                <h2 class="item done"><a href="homework4/">ДЗ #4: Создание своих таблиц БД и написание модели данных к ним</a>
                     <i class="icon"></i>
                 </h2>
             </li>
             <li>
-                <h2 class="item"><a href="homework5/">ДЗ #5: Компонент списка таблицы БД</a>
+                <h2 class="item done"><a href="homework5/">ДЗ #5: Компонент списка таблицы БД</a>
                     <i class="icon"></i>
                 </h2>
             </li>
             <li>
-                <h2 class="item"><a href="homework6/">ДЗ #6: Написание своего модуля</a>
+                <h2 class="item done"><a href="homework6/">ДЗ #6: Написание своего модуля</a>
                     <i class="icon"></i>
                 </h2>
             </li>
             <li>
-                <h2 class="item"><a href="homework7/">ДЗ #7: Создание кастомных полей и встраивание их в систему</a>
+                <h2 class="item done"><a href="homework7/">ДЗ #7: Создание кастомных полей и встраивание их в систему</a>
                     <div class="prog proc"></div>
                 </h2>
             </li>
             <li>
-                <h2 class="item"><a href="homework8/">ДЗ #8: Учимся подключать свои скрипты, взаимодействовать с компонентами из фронтенда</a>
+                <h2 class="item done"><a href="homework8/">ДЗ #8: Учимся подключать свои скрипты, взаимодействовать с компонентами из фронтенда</a>
                     <i class="icon"></i>
                 </h2>
             </li>
             <li>
-                <h2 class="item"><a href="homework9/">ДЗ #9: Написание своих активити для БП</a>
+                <h2 class="item done"><a href="homework9/">ДЗ #9: Написание своих активити для БП</a>
                     <i class="icon"></i>
                 </h2>
             </li>
             <li>
-                <h2 class="item"><a href="homework10/">ДЗ #10: Обработка событий</a>
+                <h2 class="item done"><a href="homework10/">ДЗ #10: Обработка событий</a>
                     <i class="icon"></i>
                 </h2>
             </li>
