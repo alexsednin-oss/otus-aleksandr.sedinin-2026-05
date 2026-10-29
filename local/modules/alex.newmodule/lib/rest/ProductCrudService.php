@@ -11,12 +11,9 @@ use Bitrix\Main\Type\DateTime;
  */
 class ProductCrudService
 {
-    /** Поля, доступные на обновление по условию задачи */
     public const UPDATABLE_FIELDS = ['NAME', 'PRICE'];
 
     private const LIST_LIMIT = 50;
-
-    // ------------------------------------------------------------------ CREATE
 
     /**
      * @param array $fields NAME, PRICE, MANUFACTURER, PRODUCT_TYPE
@@ -58,10 +55,13 @@ class ProductCrudService
         ];
     }
 
-    // -------------------------------------------------------------------- READ
-
     /**
-     * Чтение: одна строка по ID либо постраничный список.
+     * @param array $params
+     * @return array
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
      */
     public static function read(array $params): array
     {
@@ -102,10 +102,11 @@ class ProductCrudService
         return array_map([self::class, 'formatRow'], $rows);
     }
 
-    // ------------------------------------------------------------------ UPDATE
-
     /**
-     * Обновление по ID.
+     * @param int $id
+     * @param array $fields
+     * @return array
+     * @throws \Exception
      */
     public static function update(int $id, array $fields): array
     {
@@ -149,10 +150,10 @@ class ProductCrudService
         return ['ID' => $id, 'UPDATED' => array_keys($update)];
     }
 
-    // ------------------------------------------------------------------ DELETE
-
     /**
-     * Удаление строки таблицы.
+     * @param int $id
+     * @return array
+     * @throws \Exception
      */
     public static function delete(int $id): array
     {
@@ -173,8 +174,13 @@ class ProductCrudService
         return ['ID' => $id, 'DELETED' => true];
     }
 
-    // ----------------------------------------------------------------- helpers
-
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     */
     private static function exists(int $id): bool
     {
         return (bool) ProductTable::query()
@@ -184,6 +190,10 @@ class ProductCrudService
             ->fetch();
     }
 
+    /**
+     * @param array $row
+     * @return array
+     */
     private static function formatRow(array $row): array
     {
         $createdAt = $row['CREATED_AT'] ?? null;
@@ -198,6 +208,11 @@ class ProductCrudService
         ];
     }
 
+    /**
+     * @param array $fields
+     * @param string $key
+     * @return string
+     */
     private static function requireString(array $fields, string $key): string
     {
         $value = trim((string) ($fields[$key] ?? ''));
@@ -213,6 +228,10 @@ class ProductCrudService
         return $value;
     }
 
+    /**
+     * @param array $fields
+     * @return int
+     */
     private static function requirePrice(array $fields): int
     {
         $raw = $fields['PRICE'] ?? null;
