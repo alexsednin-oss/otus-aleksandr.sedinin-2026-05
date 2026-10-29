@@ -8,10 +8,6 @@ use Bitrix\Main\Type\DateTime;
 
 /**
  * CRUD над таблицей meatshop_product.
- *
- * Слой намеренно не знает про REST: бросает обычные исключения, а в коды
- * ошибок REST их превращает RestService. Благодаря этому логику можно
- * вызывать из консоли, агента или теста.
  */
 class ProductCrudService
 {
@@ -23,9 +19,6 @@ class ProductCrudService
     // ------------------------------------------------------------------ CREATE
 
     /**
-     * Создание товара. Производитель и тип товара ищутся в инфоблоках
-     * по наименованию, при отсутствии создаются.
-     *
      * @param array $fields NAME, PRICE, MANUFACTURER, PRODUCT_TYPE
      *
      * @return array{ID:int, MANUFACTURER:array, PRODUCT_TYPE:array}
@@ -69,9 +62,6 @@ class ProductCrudService
 
     /**
      * Чтение: одна строка по ID либо постраничный список.
-     *
-     * В выдаче вместо MANUFACTURER_ID / PRODUCT_TYPE_ID — наименования
-     * элементов инфоблоков, как требует задача.
      */
     public static function read(array $params): array
     {
@@ -115,9 +105,7 @@ class ProductCrudService
     // ------------------------------------------------------------------ UPDATE
 
     /**
-     * Обновление по ID. По условию задачи меняются только NAME и PRICE,
-     * попытка сменить производителя или тип товара — ошибка, а не тихое
-     * игнорирование: иначе клиент считает, что подмена сработала.
+     * Обновление по ID.
      */
     public static function update(int $id, array $fields): array
     {
@@ -164,8 +152,7 @@ class ProductCrudService
     // ------------------------------------------------------------------ DELETE
 
     /**
-     * Удаление строки таблицы. Элементы инфоблоков не трогаем — они общие
-     * для других товаров, их удаление оборвало бы связи.
+     * Удаление строки таблицы.
      */
     public static function delete(int $id): array
     {
