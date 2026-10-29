@@ -14,15 +14,10 @@ use Bitrix\Rest\RestException;
  *   meatshop_product.read    ID | LIMIT, OFFSET
  *   meatshop_product.update  ID + NAME и/или PRICE
  *   meatshop_product.delete  ID
- *
- * Все вызовы проходят через handle(): он пишет в лог принятые данные и
- * результат обработки и превращает исключения слоя логики в коды ошибок REST.
  */
 class RestService
 {
     public const SCOPE = 'meatshop';
-
-    /** Служебные параметры REST — к полям сущности не относятся */
     private const SERVICE_PARAMS = ['AUTH', 'SCOPE', 'METHOD', 'HALT', 'CMD'];
 
     /**
@@ -40,6 +35,13 @@ class RestService
         ];
     }
 
+    /**
+     * @param $params
+     * @param $n
+     * @param $server
+     * @return array
+     * @throws RestException
+     */
     public static function create($params, $n = 0, $server = null): array
     {
         return self::handle('meatshop_product.create', $params, static function (array $fields) {
@@ -47,6 +49,13 @@ class RestService
         });
     }
 
+    /**
+     * @param $params
+     * @param $n
+     * @param $server
+     * @return mixed
+     * @throws RestException
+     */
     public static function read($params, $n = 0, $server = null)
     {
         return self::handle('meatshop_product.read', $params, static function (array $fields) {
@@ -54,6 +63,13 @@ class RestService
         });
     }
 
+    /**
+     * @param $params
+     * @param $n
+     * @param $server
+     * @return array
+     * @throws RestException
+     */
     public static function update($params, $n = 0, $server = null): array
     {
         return self::handle('meatshop_product.update', $params, static function (array $fields) {
@@ -65,6 +81,13 @@ class RestService
         });
     }
 
+    /**
+     * @param $params
+     * @param $n
+     * @param $server
+     * @return array
+     * @throws RestException
+     */
     public static function delete($params, $n = 0, $server = null): array
     {
         return self::handle('meatshop_product.delete', $params, static function (array $fields) {
@@ -73,9 +96,6 @@ class RestService
     }
 
     /**
-     * Единая обвязка метода: лог входа, вызов логики, лог результата,
-     * перевод исключений в коды ошибок REST.
-     *
      * @param mixed $rawParams как пришло от клиента, до нормализации
      *
      * @return mixed
@@ -106,9 +126,8 @@ class RestService
     }
 
     /**
-     * Приводит входные параметры к единому виду: ключи в верхнем регистре,
-     * поддержана как плоская передача, так и обёртка fields[] в стиле crm.*.
-     * Служебные параметры REST отбрасываются, иначе update сочтёт их лишними.
+     * @param $params
+     * @return array
      */
     private static function normalize($params): array
     {

@@ -8,24 +8,14 @@ use Bitrix\Main\Type\DateTime;
 
 /**
  * CRUD над таблицей meatshop_product.
- *
- * Слой намеренно не знает про REST: бросает обычные исключения, а в коды
- * ошибок REST их превращает RestService. Благодаря этому логику можно
- * вызывать из консоли, агента или теста.
  */
 class ProductCrudService
 {
-    /** Поля, доступные на обновление по условию задачи */
     public const UPDATABLE_FIELDS = ['NAME', 'PRICE'];
 
     private const LIST_LIMIT = 50;
 
-    // ------------------------------------------------------------------ CREATE
-
     /**
-     * Создание товара. Производитель и тип товара ищутся в инфоблоках
-     * по наименованию, при отсутствии создаются.
-     *
      * @param array $fields NAME, PRICE, MANUFACTURER, PRODUCT_TYPE
      *
      * @return array{ID:int, MANUFACTURER:array, PRODUCT_TYPE:array}
@@ -65,13 +55,13 @@ class ProductCrudService
         ];
     }
 
-    // -------------------------------------------------------------------- READ
-
     /**
-     * Чтение: одна строка по ID либо постраничный список.
-     *
-     * В выдаче вместо MANUFACTURER_ID / PRODUCT_TYPE_ID — наименования
-     * элементов инфоблоков, как требует задача.
+     * @param array $params
+     * @return array
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
      */
     public static function read(array $params): array
     {
@@ -112,12 +102,11 @@ class ProductCrudService
         return array_map([self::class, 'formatRow'], $rows);
     }
 
-    // ------------------------------------------------------------------ UPDATE
-
     /**
-     * Обновление по ID. По условию задачи меняются только NAME и PRICE,
-     * попытка сменить производителя или тип товара — ошибка, а не тихое
-     * игнорирование: иначе клиент считает, что подмена сработала.
+     * @param int $id
+     * @param array $fields
+     * @return array
+     * @throws \Exception
      */
     public static function update(int $id, array $fields): array
     {
@@ -161,11 +150,10 @@ class ProductCrudService
         return ['ID' => $id, 'UPDATED' => array_keys($update)];
     }
 
-    // ------------------------------------------------------------------ DELETE
-
     /**
-     * Удаление строки таблицы. Элементы инфоблоков не трогаем — они общие
-     * для других товаров, их удаление оборвало бы связи.
+     * @param int $id
+     * @return array
+     * @throws \Exception
      */
     public static function delete(int $id): array
     {
@@ -186,8 +174,13 @@ class ProductCrudService
         return ['ID' => $id, 'DELETED' => true];
     }
 
-    // ----------------------------------------------------------------- helpers
-
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     */
     private static function exists(int $id): bool
     {
         return (bool) ProductTable::query()
@@ -197,6 +190,10 @@ class ProductCrudService
             ->fetch();
     }
 
+    /**
+     * @param array $row
+     * @return array
+     */
     private static function formatRow(array $row): array
     {
         $createdAt = $row['CREATED_AT'] ?? null;
@@ -211,6 +208,11 @@ class ProductCrudService
         ];
     }
 
+    /**
+     * @param array $fields
+     * @param string $key
+     * @return string
+     */
     private static function requireString(array $fields, string $key): string
     {
         $value = trim((string) ($fields[$key] ?? ''));
@@ -226,6 +228,10 @@ class ProductCrudService
         return $value;
     }
 
+    /**
+     * @param array $fields
+     * @return int
+     */
     private static function requirePrice(array $fields): int
     {
         $raw = $fields['PRICE'] ?? null;
