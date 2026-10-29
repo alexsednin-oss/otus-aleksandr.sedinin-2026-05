@@ -14,10 +14,15 @@ use Bitrix\Rest\RestException;
  *   meatshop_product.read    ID | LIMIT, OFFSET
  *   meatshop_product.update  ID + NAME и/или PRICE
  *   meatshop_product.delete  ID
+ *
+ * Все вызовы проходят через handle(): он пишет в лог принятые данные и
+ * результат обработки и превращает исключения слоя логики в коды ошибок REST.
  */
 class RestService
 {
     public const SCOPE = 'meatshop';
+
+    /** Служебные параметры REST — к полям сущности не относятся */
     private const SERVICE_PARAMS = ['AUTH', 'SCOPE', 'METHOD', 'HALT', 'CMD'];
 
     /**
@@ -37,47 +42,73 @@ class RestService
 
     public static function create($params, $n = 0, $server = null): array
     {
-        $fields = self::normalize($params);
-
-        return self::guard(static function () use ($fields) {
+        return self::handle('meatshop_product.create', $params, static function (array $fields) {
             return ProductCrudService::create($fields);
         });
     }
 
     public static function read($params, $n = 0, $server = null)
     {
-        $fields = self::normalize($params);
-
-        return self::guard(static function () use ($fields) {
+        return self::handle('meatshop_product.read', $params, static function (array $fields) {
             return ProductCrudService::read($fields);
         });
     }
 
     public static function update($params, $n = 0, $server = null): array
     {
-        $fields = self::normalize($params);
-        $id     = (int) ($fields['ID'] ?? 0);
+        return self::handle('meatshop_product.update', $params, static function (array $fields) {
+            $id = (int) ($fields['ID'] ?? 0);
 
-        unset($fields['ID']);
+            unset($fields['ID']);
 
-        return self::guard(static function () use ($id, $fields) {
             return ProductCrudService::update($id, $fields);
         });
     }
 
     public static function delete($params, $n = 0, $server = null): array
     {
-        $fields = self::normalize($params);
-        $id     = (int) ($fields['ID'] ?? 0);
-
-        return self::guard(static function () use ($id) {
-            return ProductCrudService::delete($id);
+        return self::handle('meatshop_product.delete', $params, static function (array $fields) {
+            return ProductCrudService::delete((int) ($fields['ID'] ?? 0));
         });
+    }
+
+    /**
+     * Единая обвязка метода: лог входа, вызов логики, лог результата,
+     * перевод исключений в коды ошибок REST.
+     *
+     * @param mixed $rawParams как пришло от клиента, до нормализации
+     *
+     * @return mixed
+     */
+    private static function handle(string $method, $rawParams, callable $action)
+    {
+        $requestId = Log::request($method, $rawParams);
+
+        try {
+            $result = $action(self::normalize($rawParams));
+
+            Log::response($requestId, $method, $result);
+
+            return $result;
+        } catch (\InvalidArgumentException $e) {
+            Log::failure($requestId, $method, 'ERROR_WRONG_PARAMS', $e);
+
+            throw new RestException($e->getMessage(), 'ERROR_WRONG_PARAMS');
+        } catch (\OutOfBoundsException $e) {
+            Log::failure($requestId, $method, 'ERROR_NOT_FOUND', $e);
+
+            throw new RestException($e->getMessage(), 'ERROR_NOT_FOUND');
+        } catch (\Throwable $e) {
+            Log::failure($requestId, $method, 'ERROR_MEATSHOP', $e);
+
+            throw new RestException($e->getMessage(), 'ERROR_MEATSHOP');
+        }
     }
 
     /**
      * Приводит входные параметры к единому виду: ключи в верхнем регистре,
      * поддержана как плоская передача, так и обёртка fields[] в стиле crm.*.
+     * Служебные параметры REST отбрасываются, иначе update сочтёт их лишними.
      */
     private static function normalize($params): array
     {
@@ -101,21 +132,5 @@ class RestService
         }
 
         return array_diff_key($normalized, array_flip(self::SERVICE_PARAMS));
-    }
-
-    /**
-     * Единая точка превращения исключений слоя логики в коды ошибок REST.
-     */
-    private static function guard(callable $action)
-    {
-        try {
-            return $action();
-        } catch (\InvalidArgumentException $e) {
-            throw new RestException($e->getMessage(), 'ERROR_WRONG_PARAMS');
-        } catch (\OutOfBoundsException $e) {
-            throw new RestException($e->getMessage(), 'ERROR_NOT_FOUND');
-        } catch (\Throwable $e) {
-            throw new RestException($e->getMessage(), 'ERROR_MEATSHOP');
-        }
     }
 }
