@@ -77,6 +77,12 @@ class alex_newmodule extends CModule
                 $report[] = 'ОШИБКА при создании поля «Дата последней коммуникации»: '.$e->getMessage();
             }
 
+            try {
+                $report = array_merge($report, \Alex\Newmodule\Rest\MeatShopIblock::install());
+            } catch (\Throwable $e) {
+                $report[] = 'ОШИБКА при создании структуры мясной лавки: '.$e->getMessage();
+            }
+
             $GLOBALS['ALEX_NEWMODULE_INSTALL_REPORT'] = $report;
 
             $APPLICATION->IncludeAdminFile(
@@ -182,6 +188,7 @@ class alex_newmodule extends CModule
             ['iblock', 'OnAfterIBlockElementUpdate', '\Alex\Newmodule\DealRequestSync', 'onIblockElementUpdate'],
             ['crm', 'OnAfterCrmDealUpdate', '\Alex\Newmodule\DealRequestSync', 'onCrmDealUpdate'],
             ['rest', 'onEventManagerInitialize', '\Alex\Newmodule\LocalEventProvider', 'onEventManagerInitialize'],
+            ['rest', 'OnRestServiceBuildDescription', '\Alex\Newmodule\Rest\RestService', 'onRestServiceBuildDescription'],
         ];
 
         return $events;
