@@ -1,0 +1,243 @@
+<?php
+
+namespace Alex\Newmodule\Rest;
+
+use Alex\Newmodule\Rest\Model\ProductTable;
+use Bitrix\Main\Loader;
+use Bitrix\Main\Type\DateTime;
+
+/**
+ * CRUD над таблицей meatshop_product.
+ *
+ * Слой намеренно не знает про REST: бросает обычные исключения, а в коды
+ * ошибок REST их превращает RestService. Благодаря этому логику можно
+ * вызывать из консоли, агента или теста.
+ */
+class ProductCrudService
+{
+    /** Поля, доступные на обновление по условию задачи */
+    public const UPDATABLE_FIELDS = ['NAME', 'PRICE'];
+
+    private const LIST_LIMIT = 50;
+
+    // ------------------------------------------------------------------ CREATE
+
+    /**
+     * Создание товара. Производитель и тип товара ищутся в инфоблоках
+     * по наименованию, при отсутствии создаются.
+     *
+     * @param array $fields NAME, PRICE, MANUFACTURER, PRODUCT_TYPE
+     *
+     * @return array{ID:int, MANUFACTURER:array, PRODUCT_TYPE:array}
+     */
+    public static function create(array $fields): array
+    {
+        $name  = self::requireString($fields, 'NAME');
+        $price = self::requirePrice($fields);
+
+        $manufacturer = IblockElementResolver::resolve(
+            MeatShopIblock::manufacturerId(),
+            self::requireString($fields, 'MANUFACTURER'),
+            'Производители'
+        );
+
+        $productType = IblockElementResolver::resolve(
+            MeatShopIblock::productTypeId(),
+            self::requireString($fields, 'PRODUCT_TYPE'),
+            'Тип товара'
+        );
+
+        $result = ProductTable::add([
+            'NAME'            => $name,
+            'PRICE'           => $price,
+            'MANUFACTURER_ID' => $manufacturer['ID'],
+            'PRODUCT_TYPE_ID' => $productType['ID'],
+        ]);
+
+        if (!$result->isSuccess()) {
+            throw new \RuntimeException('не удалось добавить товар: ' . implode('; ', $result->getErrorMessages()));
+        }
+
+        return [
+            'ID'           => (int) $result->getId(),
+            'MANUFACTURER' => $manufacturer,
+            'PRODUCT_TYPE' => $productType,
+        ];
+    }
+
+    // -------------------------------------------------------------------- READ
+
+    /**
+     * Чтение: одна строка по ID либо постраничный список.
+     *
+     * В выдаче вместо MANUFACTURER_ID / PRODUCT_TYPE_ID — наименования
+     * элементов инфоблоков, как требует задача.
+     */
+    public static function read(array $params): array
+    {
+        if (!Loader::includeModule('iblock')) {
+            throw new \RuntimeException('не установлен модуль iblock');
+        }
+
+        $query = ProductTable::query()
+            ->setSelect([
+                'ID',
+                'NAME',
+                'PRICE',
+                'CREATED_AT',
+                // имена тянем связями, ID инфоблоков наружу не отдаём
+                'MANUFACTURER' => 'MANUFACTURER_ELEMENT.NAME',
+                'PRODUCT_TYPE' => 'PRODUCT_TYPE_ELEMENT.NAME',
+            ])
+            ->setOrder(['ID' => 'ASC']);
+
+        $id = (int) ($params['ID'] ?? 0);
+
+        if ($id > 0) {
+            $row = $query->where('ID', $id)->setLimit(1)->fetch();
+
+            if (!$row) {
+                throw new \OutOfBoundsException('товар с ID ' . $id . ' не найден');
+            }
+
+            return self::formatRow($row);
+        }
+
+        $limit  = (int) ($params['LIMIT'] ?? self::LIST_LIMIT);
+        $limit  = max(1, min($limit, self::LIST_LIMIT));
+        $offset = max(0, (int) ($params['OFFSET'] ?? 0));
+
+        $rows = $query->setLimit($limit)->setOffset($offset)->fetchAll();
+
+        return array_map([self::class, 'formatRow'], $rows);
+    }
+
+    // ------------------------------------------------------------------ UPDATE
+
+    /**
+     * Обновление по ID. По условию задачи меняются только NAME и PRICE,
+     * попытка сменить производителя или тип товара — ошибка, а не тихое
+     * игнорирование: иначе клиент считает, что подмена сработала.
+     */
+    public static function update(int $id, array $fields): array
+    {
+        if ($id <= 0) {
+            throw new \InvalidArgumentException('не передан ID товара');
+        }
+
+        $forbidden = array_diff(array_keys($fields), self::UPDATABLE_FIELDS);
+
+        if ($forbidden) {
+            throw new \InvalidArgumentException(
+                'обновлять можно только ' . implode(', ', self::UPDATABLE_FIELDS)
+                . '; лишние поля: ' . implode(', ', $forbidden)
+            );
+        }
+
+        $update = [];
+
+        if (array_key_exists('NAME', $fields)) {
+            $update['NAME'] = self::requireString($fields, 'NAME');
+        }
+
+        if (array_key_exists('PRICE', $fields)) {
+            $update['PRICE'] = self::requirePrice($fields);
+        }
+
+        if (!$update) {
+            throw new \InvalidArgumentException('нечего обновлять: передайте NAME и/или PRICE');
+        }
+
+        if (!self::exists($id)) {
+            throw new \OutOfBoundsException('товар с ID ' . $id . ' не найден');
+        }
+
+        $result = ProductTable::update($id, $update);
+
+        if (!$result->isSuccess()) {
+            throw new \RuntimeException('не удалось обновить товар: ' . implode('; ', $result->getErrorMessages()));
+        }
+
+        return ['ID' => $id, 'UPDATED' => array_keys($update)];
+    }
+
+    // ------------------------------------------------------------------ DELETE
+
+    /**
+     * Удаление строки таблицы. Элементы инфоблоков не трогаем — они общие
+     * для других товаров, их удаление оборвало бы связи.
+     */
+    public static function delete(int $id): array
+    {
+        if ($id <= 0) {
+            throw new \InvalidArgumentException('не передан ID товара');
+        }
+
+        if (!self::exists($id)) {
+            throw new \OutOfBoundsException('товар с ID ' . $id . ' не найден');
+        }
+
+        $result = ProductTable::delete($id);
+
+        if (!$result->isSuccess()) {
+            throw new \RuntimeException('не удалось удалить товар: ' . implode('; ', $result->getErrorMessages()));
+        }
+
+        return ['ID' => $id, 'DELETED' => true];
+    }
+
+    // ----------------------------------------------------------------- helpers
+
+    private static function exists(int $id): bool
+    {
+        return (bool) ProductTable::query()
+            ->setSelect(['ID'])
+            ->where('ID', $id)
+            ->setLimit(1)
+            ->fetch();
+    }
+
+    private static function formatRow(array $row): array
+    {
+        $createdAt = $row['CREATED_AT'] ?? null;
+
+        return [
+            'ID'           => (int) $row['ID'],
+            'NAME'         => (string) $row['NAME'],
+            'PRICE'        => (int) $row['PRICE'],
+            'MANUFACTURER' => $row['MANUFACTURER'] !== null ? (string) $row['MANUFACTURER'] : null,
+            'PRODUCT_TYPE' => $row['PRODUCT_TYPE'] !== null ? (string) $row['PRODUCT_TYPE'] : null,
+            'CREATED_AT'   => $createdAt instanceof DateTime ? $createdAt->toString() : $createdAt,
+        ];
+    }
+
+    private static function requireString(array $fields, string $key): string
+    {
+        $value = trim((string) ($fields[$key] ?? ''));
+
+        if ($value === '') {
+            throw new \InvalidArgumentException('не передано обязательное поле ' . $key);
+        }
+
+        if (mb_strlen($value) > 255) {
+            throw new \InvalidArgumentException('поле ' . $key . ' длиннее 255 символов');
+        }
+
+        return $value;
+    }
+
+    private static function requirePrice(array $fields): int
+    {
+        $raw = $fields['PRICE'] ?? null;
+
+        if ($raw === null || $raw === '' || !is_numeric($raw)) {
+            throw new \InvalidArgumentException('поле PRICE обязательно и должно быть числом');
+        }
+
+        if ((float) $raw < 0) {
+            throw new \InvalidArgumentException('поле PRICE не может быть отрицательным');
+        }
+
+        return (int) round((float) $raw);
+    }
+}
