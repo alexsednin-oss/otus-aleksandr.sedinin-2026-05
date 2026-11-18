@@ -1,0 +1,3 @@
+<?php
+
+$MESS['ALEX_AUTOSERVICE_GARAGE_NO_ASSIGNED'] = 'не назначен';
