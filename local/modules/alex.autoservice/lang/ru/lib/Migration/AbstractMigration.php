@@ -1,0 +1,5 @@
+<?php
+
+$MESS['ALEX_AUTOSERVICE_MIGRATION_MODULE_REQUIRED'] = 'Не установлен модуль #MODULE#';
+
+$MESS['ALEX_AUTOSERVICE_MIGRATION_MISSING_PHRASE'] = 'Пропущена языковая фраза';
